@@ -36,12 +36,12 @@ def tela_esqueci_a_senha(page: ft.Page):
         tela_cadastro(page)
         page.update()
 
-    def volta(e):
+    def fechar_alerta1(e):
         if entrada1_alerta1.content.value != entrada2_alerta1.content.value:
             valor_erro = "As senhas são diferentes!"
             texto1_alerta1.content.value = valor_erro
             texto1_alerta1.content.update()
-        elif entrada1_alerta1.content.value=="" or entrada2_alerta1.content.value=="":
+        elif entrada1_alerta1.content.value == "" or entrada2_alerta1.content.value == "":
             valor_erro = "Preencha todos os campos!"
             texto1_alerta1.content.value = valor_erro
             texto1_alerta1.content.update()
@@ -67,12 +67,12 @@ def tela_esqueci_a_senha(page: ft.Page):
             page.close(alerta1_esqueci_a_senha)
             page.open(alerta3_esqueci_a_senha)
 
-    def tentar_novamente(e):
+    def fechar_alerta2(e):
         page.close(alerta2_esqueci_a_senha)
 
     def botao_alterar_senha(e):
-        if (entrada1_esqueci_a_senha.content.value=="" or entrada2_esqueci_a_senha.content.value==""
-        or selecao1_esqueci_a_senha.content.value=="" or entrada3_esqueci_a_senha.content.value==""):
+        if (entrada1_esqueci_a_senha.content.value == "" or entrada2_esqueci_a_senha.content.value == ""
+        or selecao1_esqueci_a_senha.content.value == "" or entrada3_esqueci_a_senha.content.value == ""):
             valor_erro = "Preencha todos os campos!"
             alerta2_esqueci_a_senha.content.value = valor_erro
             page.open(alerta2_esqueci_a_senha)
@@ -95,7 +95,7 @@ def tela_esqueci_a_senha(page: ft.Page):
                 and pergunta_secreta_data in verificacao and resposta_secreta_data in verificacao):
                     page.open(alerta1_esqueci_a_senha)
                 else:
-                    pass
+                    None
             except:
                 valor_erro = "Cadastro não localizado!"
                 alerta2_esqueci_a_senha.content.value = valor_erro
@@ -112,7 +112,7 @@ def tela_esqueci_a_senha(page: ft.Page):
         entrada2_alerta1.update()
         icone1_alerta1.update()
 
-    def volta2(e):
+    def fechar_alerta3(e):
         page.close(alerta3_esqueci_a_senha)
         time.sleep(0.1)
         botao_logar_se(e)
@@ -380,6 +380,8 @@ def tela_esqueci_a_senha(page: ft.Page):
             spacing=20
         ),
         alignment=ft.alignment.center,
+        width=450,
+        height=100
     )
 
     alerta1_esqueci_a_senha = ft.AlertDialog(
@@ -395,7 +397,7 @@ def tela_esqueci_a_senha(page: ft.Page):
                 height=30,
                 bgcolor=cor_cinza,
                 border_radius=15,
-                on_click=volta
+                on_click=fechar_alerta1
             )
         ],
         bgcolor=cor_branca
@@ -407,15 +409,15 @@ def tela_esqueci_a_senha(page: ft.Page):
         text_align=ft.TextAlign.START, font_family=fonte, size=16, color=cor_cinza), actions=[
             ft.Container(
                 content=ft.Text(
-                    value="Tentar Novamente", text_align=ft.TextAlign.CENTER, font_family=fonte, size=16,
-                    weight=negrito, italic=True, color=cor_branca
+                    value="Tentar Novamente", text_align=ft.TextAlign.CENTER, font_family=fonte,
+                    size=16, weight=negrito, italic=True, color=cor_branca
                 ),
                 alignment=ft.alignment.center,
                 width=160,
                 height=30,
                 bgcolor=cor_cinza,
                 border_radius=15,
-                on_click=tentar_novamente
+                on_click=fechar_alerta2
             )
         ], bgcolor=cor_branca
     )
@@ -434,7 +436,7 @@ def tela_esqueci_a_senha(page: ft.Page):
                 height=30,
                 bgcolor=cor_cinza,
                 border_radius=15,
-                on_click=volta2
+                on_click=fechar_alerta3
             )
         ], bgcolor=cor_branca
     )

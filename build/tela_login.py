@@ -45,9 +45,14 @@ def tela_login(page: ft.Page):
             if (id_empresa_data in verificacao and senha_data in verificacao):
                 page.open(alerta1_login)
             else:
-                pass
+                page.open(alerta2_login)
         except:
             page.open(alerta2_login)
+        if verificacao:
+            cargo_usuario = verificacao[7]
+            return cargo_usuario
+        else:
+            return None
 
     def botao_esqueci_a_senha(e):
         from build.tela_esqueci_a_senha import tela_esqueci_a_senha
@@ -55,11 +60,14 @@ def tela_login(page: ft.Page):
         tela_esqueci_a_senha(page)
         page.update()
 
-    def fechar_programa(e):
+    def entrar_paineis_programa(e):
         page.window.close()
 
-    def tentar_novamente(e):
+    def fechar_alerta2(e):
         page.close(alerta2_login)
+
+    def fechar_alerta3(e):
+        page.close(alerta3_login)
 
     def mudar_visibilidade_senha(e):
         entrada2_login.content.password = not entrada2_login.content.password
@@ -265,7 +273,7 @@ def tela_login(page: ft.Page):
                 height=30,
                 bgcolor=cor_cinza,
                 border_radius=15,
-                on_click=fechar_programa
+                on_click=entrar_paineis_programa
             )
         ], bgcolor=cor_branca
     )
@@ -284,7 +292,26 @@ def tela_login(page: ft.Page):
                 height=30,
                 bgcolor=cor_cinza,
                 border_radius=15,
-                on_click=tentar_novamente
+                on_click=fechar_alerta2
+            )
+        ], bgcolor=cor_branca
+    )
+
+    alerta3_login = ft.AlertDialog(
+        modal=True, title=ft.Text(value="Erro no Login!", text_align=ft.TextAlign.START, font_family=fonte,
+        size=20, weight=negrito, color=cor_cinza), content=ft.Text("Um Administrador precisa\naceitar seu cadastro!",
+        text_align=ft.TextAlign.START, font_family=fonte, size=16, color=cor_cinza), actions=[
+            ft.Container(
+                content=ft.Text(
+                    value="Tentar Novamente", text_align=ft.TextAlign.CENTER, font_family=fonte, size=16,
+                    weight=negrito, italic=True, color=cor_branca
+                ),
+                alignment=ft.alignment.center,
+                width=160,
+                height=30,
+                bgcolor=cor_cinza,
+                border_radius=15,
+                on_click=fechar_alerta3
             )
         ], bgcolor=cor_branca
     )

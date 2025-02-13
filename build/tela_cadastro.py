@@ -31,9 +31,9 @@ def tela_cadastro(page: ft.Page):
         page.update()
 
     def botao_cadastrar_se(e):
-        if (entrada1_cadastro.content.value=="" or entrada2_cadastro.content.value==""
-        or entrada3_cadastro.content.value=="" or entrada4_cadastro.content.value==""
-        or entrada5_cadastro.content.value=="" or entrada6_cadastro.content.value==""):
+        if (entrada1_cadastro.content.value == "" or entrada2_cadastro.content.value == ""
+        or entrada3_cadastro.content.value == "" or entrada4_cadastro.content.value == ""
+        or entrada5_cadastro.content.value == "" or entrada6_cadastro.content.value == ""):
             valor_erro = "Preencha todos os campos!"
             alerta2_cadastro.content.value = valor_erro
             page.open(alerta2_cadastro)
@@ -64,19 +64,21 @@ def tela_cadastro(page: ft.Page):
             senha_data = entrada4_cadastro.content.value
             pergunta_secreta_data = selecao1_cadastro.content.value
             resposta_secreta_data = entrada6_cadastro.content.value
-            cargo_data = ""
+            cargo_data = "none"
             cursor.execute("""
-            INSERT INTO tabela_cadastros(nome, email, id_empresa, senha, pergunta_secreta, resposta_secreta, cargo) VALUES(?,?,?,?,?,?,?)
-            """, (nome_data, email_data, id_empresa_data, senha_data, pergunta_secreta_data, resposta_secreta_data,cargo_data))
+            INSERT INTO tabela_cadastros(nome, email, id_empresa, senha, pergunta_secreta, resposta_secreta,
+            cargo) VALUES(?,?,?,?,?,?,?)
+            """, (nome_data, email_data, id_empresa_data, senha_data, pergunta_secreta_data,
+                resposta_secreta_data, cargo_data))
             conn.commit()
             page.open(alerta1_cadastro)
 
-    def volta(e):
+    def fechar_alerta1(e):
         page.close(alerta1_cadastro)
         time.sleep(0.1)
         botao_logar_se(e)
 
-    def tentar_novamente(e):
+    def fechar_alerta2(e):
         page.close(alerta2_cadastro)
 
     def mudar_visibilidade_senha(e):
@@ -341,11 +343,12 @@ def tela_cadastro(page: ft.Page):
 
     alerta1_cadastro = ft.AlertDialog(
         modal=True, title=ft.Text(value="Cadastrado com sucesso!", text_align=ft.TextAlign.START, font_family=fonte,
-        size=20, weight=negrito, color=cor_cinza), content=ft.Text("Aperte no botão abaixo.",
-        text_align=ft.TextAlign.START, font_family=fonte, size=16, color=cor_cinza), actions=[
+        size=20, weight=negrito, color=cor_cinza),
+        content=ft.Text("Aguarde alguem ativar seu Login\nAperte no botão abaixo.", text_align=ft.TextAlign.START,
+        font_family=fonte, size=16, color=cor_cinza), actions=[
             ft.Container(
                 content=ft.Text(
-                    value="Logar", text_align=ft.TextAlign.CENTER, font_family=fonte, size=16, weight=negrito,
+                    value="Voltar", text_align=ft.TextAlign.CENTER, font_family=fonte, size=16, weight=negrito,
                     italic=True, color=cor_branca
                 ),
                 alignment=ft.alignment.center,
@@ -353,7 +356,7 @@ def tela_cadastro(page: ft.Page):
                 height=30,
                 bgcolor=cor_cinza,
                 border_radius=15,
-                on_click=volta
+                on_click=fechar_alerta1
             )
         ], bgcolor=cor_branca
     )
@@ -364,15 +367,15 @@ def tela_cadastro(page: ft.Page):
         text_align=ft.TextAlign.START, font_family=fonte, size=16, color=cor_cinza), actions=[
             ft.Container(
                 content=ft.Text(
-                    value="Tentar Novamente", text_align=ft.TextAlign.CENTER, font_family=fonte, size=16,
-                    weight=negrito, italic=True, color=cor_branca
+                    value="Tentar Novamente", text_align=ft.TextAlign.CENTER, font_family=fonte,
+                    size=16, weight=negrito, italic=True, color=cor_branca
                 ),
                 alignment=ft.alignment.center,
                 width=160,
                 height=30,
                 bgcolor=cor_cinza,
                 border_radius=15,
-                on_click=tentar_novamente
+                on_click=fechar_alerta2
             )
         ], bgcolor=cor_branca
     )
